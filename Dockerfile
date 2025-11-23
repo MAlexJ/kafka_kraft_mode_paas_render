@@ -1,4 +1,4 @@
-FROM bitnami/kafka:4.1.1
+FROM apache/kafka:4.1.1
 
 # ------------------------------
 #   KRaft Single-Node Settings
@@ -14,8 +14,8 @@ ENV KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://0.0.0.0:9092
 
 ENV KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
 
-ENV KAFKA_CFG_LOG_DIRS=/bitnami/kafka/data
-ENV KAFKA_CFG_METADATA_LOG_DIR=/bitnami/kafka/metadata
+ENV KAFKA_CFG_LOG_DIRS=/var/lib/kafka/data
+ENV KAFKA_CFG_METADATA_LOG_DIR=/var/lib/kafka/metadata
 
 # ------------------------------
 #   Keep-alive HTTP Server
@@ -27,4 +27,4 @@ RUN mkdir -p /keepalive && echo "OK" > /keepalive/index.html
 EXPOSE 9092 9093 8080
 
 CMD busybox httpd -f -p 8080 -h /keepalive & \
-    /opt/bitnami/scripts/kafka/run.sh
+    /bin/sh -c "/opt/kafka/bin/kafka-server-start.sh /opt/kafka/config/server.properties"
