@@ -25,13 +25,13 @@ RUN mkdir -p /opt/kafka/config/kraft && \
 process.roles=broker,controller
 node.id=1
 controller.quorum.voters=1@0.0.0.0:9093
-listeners=PLAINTEXT://:9092,CONTROLLER://:9093
+listeners=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
 listener.security.protocol.map=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
 controller.listener.names=CONTROLLER
 log.dirs=/var/lib/kafka/data
 metadata.log.dir=/var/lib/kafka/metadata
 auto.create.topics.enable=true
-advertised.listeners=PLAINTEXT://0.0.0.0:9092
+advertised.listeners=PLAINTEXT://localhost:9092
 EOF
 
 # ------------------------------
