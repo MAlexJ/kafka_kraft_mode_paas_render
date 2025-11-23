@@ -1,0 +1,11 @@
+services:
+  - name: kafka-kraft
+    type: web
+    runtime: docker
+    plan: free
+    autoDeploy: true
+    ports:
+      - port: 8080
+        protocol: http     # keep alive
+      - port: 9092
+        protocol: tcp      # kafka broker

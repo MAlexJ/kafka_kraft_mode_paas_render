@@ -1,0 +1,32 @@
+FROM bitnami/kafka:3
+
+# ------------------------------
+#   KRaft Single-Node Settings
+#   (2025 best practice)
+# ------------------------------
+
+ENV KAFKA_ENABLE_KRAFT=yes
+ENV KAFKA_CFG_NODE_ID=1
+ENV KAFKA_CFG_PROCESS_ROLES=controller,broker
+ENV KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=1@localhost:9093
+
+ENV KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+ENV KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
+ENV KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092
+
+ENV KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true
+
+ENV KAFKA_CFG_LOG_DIRS=/bitnami/kafka/data
+ENV KAFKA_CFG_METADATA_LOG_DIR=/bitnami/kafka/metadata
+
+# ------------------------------
+#   Keep-alive HTTP Server
+# ------------------------------
+USER root
+RUN apt-get update && apt-get install -y busybox && apt-get clean
+RUN mkdir -p /keepalive && echo "OK" > /keepalive/index.html
+
+EXPOSE 9092 8080
+
+CMD busybox httpd -f -p 8080 -h /keepalive & \
+    /opt/bitnami/scripts/kafka/run.sh
