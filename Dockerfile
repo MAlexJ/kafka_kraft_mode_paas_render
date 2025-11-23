@@ -24,7 +24,7 @@ RUN mkdir -p /opt/kafka/config/kraft && \
     cat <<EOF > /opt/kafka/config/kraft/server.properties
 process.roles=broker,controller
 node.id=1
-controller.quorum.voters=1@0.0.0.0:9093
+controller.quorum.voters=1@localhost:9093
 listeners=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093
 listener.security.protocol.map=PLAINTEXT:PLAINTEXT,CONTROLLER:PLAINTEXT
 controller.listener.names=CONTROLLER
